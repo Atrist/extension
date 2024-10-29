@@ -2,6 +2,24 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
+
+const insertText = (val:string) => {
+    const editor = vscode.window.activeTextEditor;
+
+    if (!editor) {
+        vscode.window.showErrorMessage('Can\'t insert log because no document is open');
+        return;
+    }
+
+    const selection = editor.selection;
+
+    const range = new vscode.Range(selection.start, selection.end);
+
+    editor.edit((editBuilder) => {
+        editBuilder.replace(range, val);
+    });
+};
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -13,13 +31,23 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('atrist.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Atrist!');
-	});
+	const insertLogStatement = vscode.commands.registerCommand('extension.insertLogStatement', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) { return; }
 
-	context.subscriptions.push(disposable);
+        const selection = editor.selection;
+        const text = editor.document.getText(selection);
+
+        text
+            ? vscode.commands.executeCommand('editor.action.insertLineAfter')
+                .then(() => {
+                    const logToInsert = `console.log('${text}: ', ${text});`;
+                    insertText(logToInsert);
+                })
+            : insertText('console.log();');
+
+    });
+	context.subscriptions.push(insertLogStatement);
 }
 
 // This method is called when your extension is deactivated

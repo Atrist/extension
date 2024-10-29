@@ -1,11 +1,13 @@
 {
-  "name": "atrist",
-  "displayName": "Atrist",
+  "name": "atrist-tool",
+  "displayName": "atrist-tool",
   "description": "",
   "version": "0.0.1",
+  "publisher": "atrist",
   "engines": {
     "vscode": "^1.94.0"
   },
+  "repository": "https://github.com/Atrist/extension",
   "categories": [
     "Other"
   ],
@@ -14,8 +16,16 @@
   "contributes": {
     "commands": [
       {
-        "command": "atrist.helloWorld",
-        "title": "Hello World"
+        "command": "extension.insertLogStatement",
+        "title": "Insert Log Statement"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.insertLogStatement",
+        "key": "shift+ctrl+l",
+        "mac": "shift+cmd+l",
+        "when": "editorTextFocus"
       }
     ]
   },
