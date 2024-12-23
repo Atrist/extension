@@ -2,7 +2,7 @@
   "name": "atrist-tool",
   "displayName": "atrist-tool",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "atrist",
   "engines": {
     "vscode": "^1.94.0"
@@ -18,6 +18,10 @@
       {
         "command": "extension.insertLogStatement",
         "title": "Insert Log Statement"
+      },
+      {
+        "command": "extension.insertWarnLogStatement",
+        "title": "Insert Warn Log Statement"
       }
     ],
     "keybindings": [
@@ -25,6 +29,12 @@
         "command": "extension.insertLogStatement",
         "key": "shift+ctrl+l",
         "mac": "shift+cmd+l",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.insertWarnLogStatement",
+        "key": "shift+ctrl+i",
+        "mac": "shift+cmd+i",
         "when": "editorTextFocus"
       }
     ]

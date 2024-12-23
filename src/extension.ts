@@ -47,7 +47,24 @@ export function activate(context: vscode.ExtensionContext) {
             : insertText('console.log();');
 
     });
-	context.subscriptions.push(insertLogStatement);
+    const insertWarnStatement = vscode.commands.registerCommand('extension.insertWarnLogStatement', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) { return; }
+
+        const selection = editor.selection;
+        const text = editor.document.getText(selection);
+
+        text
+            ? vscode.commands.executeCommand('editor.action.insertLineAfter')
+                .then(() => {
+                    const logToInsert = `console.warn('${text}: ', ${text});`;
+                    insertText(logToInsert);
+                })
+            : insertText('console.warn();');
+
+    });
+    context.subscriptions.push(insertLogStatement);
+    context.subscriptions.push(insertWarnStatement);
 }
 
 // This method is called when your extension is deactivated
